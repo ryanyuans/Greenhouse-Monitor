@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  10/02/2015 15:47:02 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  10/03/2015 17:44:39 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -8,11 +8,11 @@ COMPILER INVOKED BY: D:\Keil_MDK\C51\BIN\C51.EXE Main.c OPTIMIZE(8,SPEED) BROWSE
 
 line level    source
 
-   1          //****************************************************************//
-   2          //         DHT21使用范例 
-   3          //单片机 AT89S52 或 STC89C52RC 
-   4          //                      Ryan_yuans
-   5          //****************************************************************//
+   1          //*************************************************************//
+   2          //                                      智能温室监控大棚
+   3          //                              单片机 AT89S52 或 STC89C52RC 
+   4          //                                      Ryan_yuans      2015.10
+   5          //*************************************************************//
    6          
    7          #include <reg51.h>
    8          #include <intrins.h> 
@@ -62,7 +62,7 @@ line level    source
   49          U8 T0RL = 0;
   50          U8 T1RH = 0;
   51          U8 T1RL = 0;
-C51 COMPILER V9.54   MAIN                                                                  10/02/2015 15:47:02 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  10/03/2015 17:44:39 PAGE 2   
 
   52          U16 flag1s = 0;
   53          uchar str[10];
@@ -126,7 +126,7 @@ line level    source
  111          {
  112   1              U8 i;
  113   1              i--;
-C51 COMPILER V9.54   MAIN                                                                  10/02/2015 15:47:02 PAGE 3   
+C51 COMPILER V9.54   MAIN                                                                  10/03/2015 17:44:39 PAGE 3   
 
  114   1              i--;
  115   1              i--;
@@ -190,7 +190,7 @@ line level    source
  173   1      
  174   1        //主机拉低18ms 
  175   1         P2_0=0;
-C51 COMPILER V9.54   MAIN                                                                  10/02/2015 15:47:02 PAGE 4   
+C51 COMPILER V9.54   MAIN                                                                  10/03/2015 17:44:39 PAGE 4   
 
  176   1         Delay(180);
  177   1         P2_0=1;
@@ -254,7 +254,7 @@ line level    source
  235   1              tmp = tmp + 13;
  236   1              T0RH = (uchar)(tmp >> 8);
  237   1              T0RL = (uchar)tmp;
-C51 COMPILER V9.54   MAIN                                                                  10/02/2015 15:47:02 PAGE 5   
+C51 COMPILER V9.54   MAIN                                                                  10/03/2015 17:44:39 PAGE 5   
 
  238   1              TH0 = T0RH;
  239   1              TL0 = T0RL;
@@ -318,7 +318,7 @@ line level    source
  297   3                                      enbuzz1 = 0;
  298   3                                      ENA_Temp1 = 0;
  299   3                              }
-C51 COMPILER V9.54   MAIN                                                                  10/02/2015 15:47:02 PAGE 6   
+C51 COMPILER V9.54   MAIN                                                                  10/03/2015 17:44:39 PAGE 6   
 
  300   2              
  301   2      
@@ -382,7 +382,7 @@ line level    source
  359   1              
  360   1              TH0 = T0RH;
  361   1              TL0 = T0RL;
-C51 COMPILER V9.54   MAIN                                                                  10/02/2015 15:47:02 PAGE 7   
+C51 COMPILER V9.54   MAIN                                                                  10/03/2015 17:44:39 PAGE 7   
 
  362   1              
  363   1              
