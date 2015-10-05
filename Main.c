@@ -54,19 +54,6 @@ uchar str[10];
 U8 enbuzz1 = 0,enbuzz2 = 0,enbuzz3 = 0;
 U8 ENA_Temp1 = 0,ENA_Temp2 = 0;
 
-/*
-void SendData(U8 *a)
-{
-    outdata[0] = a[0]; 
-	outdata[1] = a[1];
-	outdata[2] = a[2];
-	outdata[3] = a[3];
-	outdata[4] = a[4];
-	count = 1;
-	SBUF=outdata[0];
-}
-*/
-
 void TrasfToString(U8 *str,U8 dat)
 {
 	signed char i = 0;
@@ -260,6 +247,70 @@ void ConfigTimer1(U16 ms)	// 设置定时器T1 底层驱动
 	ET1 = 1;
 	TR1 = 1;
 }
+
+
+void ShowTempHumi()			// 显示温湿度至液晶屏
+{
+	
+	TrasfToString(str,U8T_data_H);
+	ShowStr(6,0,str);
+	TrasfToString(str,U8RH_data_H);
+	ShowStr(6,1,str);
+}
+
+void Alarm_Monitor()		// 监控各指标_ 温度、湿度、有害气体浓度
+{
+	if(DOUT==0)		// 检测有害气体浓度是否超标
+			{
+				Delay(1);	// 延时再次确认
+				if(DOUT == 0)	// 当有害气体浓度超标
+				{
+					enbuzz1 = 1;
+					ENA_Temp1 = 1;
+				}
+			}
+		 else
+			{
+				enbuzz1 = 0;
+				ENA_Temp1 = 0;
+			}
+	
+	if(U8T_data_H >= 35)	// 当温度 >= 35°C 时
+			{
+				ShowStr(14,0,"!~");
+				ENA_Temp2 = 1;
+				enbuzz2 = 1;
+			}
+			else
+			{
+				ShowStr(14,0,"  ");
+				ENA_Temp2 = 0;
+				enbuzz2 = 0;
+			}
+			
+			if(U8RH_data_H >= 60)	// 当湿度 >= 60% 时
+			{
+				ShowStr(14,1,"!~");
+				enbuzz3 = 1;
+			}
+			else
+			{
+				ShowStr(14,1,"  ");
+				enbuzz3 = 0;
+			}
+}
+
+void Alarm_Action()			// 指标异常 执行操作
+{
+	if((ENA_Temp1 == 1) || (ENA_Temp2 == 1))	// 启动风扇 抽风 降温
+	{
+		ENA = 1;
+	}
+	else
+	{
+		ENA = 0;
+	}
+}
 	
 //----------------------------------------------
 void main()
@@ -282,77 +333,26 @@ void main()
 	while(1)
 	{  
 		
-		if(DOUT==0)		// 读取有害气体浓度是否超标
-			{
-				Delay(1);	// 延时再次确认
-				if(DOUT == 0)
-				{
-					enbuzz1 = 1;
-					ENA_Temp1 = 1;
-				}
-
-			}
-		 else
-			{
-				enbuzz1 = 0;
-				ENA_Temp1 = 0;
-			}
-	
-
-	   //------------------------
-	   //调用温湿度读取子程序 读取温湿度！
+/*  调用温湿度读取子程序 读取温湿度！ */
 		RH();
 			
 			
-		if(flag1s == 1)		// 将温湿度显示在液晶屏上
+		if(flag1s == 1)		
 		{
 			flag1s = 0;
-			 TrasfToString(str,U8T_data_H);
-			ShowStr(6,0,str);
-			TrasfToString(str,U8RH_data_H);
-			ShowStr(6,1,str);
 			
-			if(U8T_data_H >= 35)	// 当温度 >= 35°C 时
-			{
-				ShowStr(14,0,"!~");
-				ENA_Temp2 = 1;
-				enbuzz2 = 1;
-			}
-			else
-			{
-				ShowStr(14,0,"  ");
-				ENA_Temp2 = 0;
-				enbuzz2 = 0;
-			}
+			ShowTempHumi();		// 将温湿度显示在液晶屏上
 			
-			if(U8RH_data_H >= 50)	// 当湿度 >= 50% 时
-			{
-				ShowStr(14,1,"!~");
-				enbuzz3 = 1;
-			}
-			else
-			{
-				ShowStr(14,1,"  ");
-				enbuzz3 = 0;
-			}
+			Alarm_Monitor();	// 监控各指标
 			
-		}	
-		
-		if((ENA_Temp1 == 1) || (ENA_Temp2 == 1))	// 启动风扇 抽风 降温
-		{
-			ENA = 1;
-		}
-		else
-		{
-			ENA = 0;
-		}
-		
+			Alarm_Action();		// 风扇机
+		}		
 		
 	}//while
 	
 }// main
 
-
+// ---------------------------------------------
 void Timer0() interrupt 1
 {
 	static U8 timer = 0;
