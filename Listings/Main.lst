@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  10/05/2015 12:31:28 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  10/08/2015 17:44:57 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -62,14 +62,14 @@ line level    source
   49          U8 T0RL = 0;
   50          U8 T1RH = 0;
   51          U8 T1RL = 0;
-C51 COMPILER V9.54   MAIN                                                                  10/05/2015 12:31:28 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  10/08/2015 17:44:57 PAGE 2   
 
   52          U16 flag1s = 0;
   53          uchar str[10];
   54          U8 enbuzz1 = 0,enbuzz2 = 0,enbuzz3 = 0;
   55          U8 ENA_Temp1 = 0,ENA_Temp2 = 0;
   56          
-  57          void TrasfToString(U8 *str,U8 dat)
+  57          void TrasfToString(U8 *str,U8 dat)              // 把读取的数据转化成字符串
   58          {
   59   1              signed char i = 0;
   60   1              uchar len = 0;
@@ -126,7 +126,7 @@ line level    source
  111   1              U8 i;
  112   1                
  113   1              for(i=0;i<8;i++)           
-C51 COMPILER V9.54   MAIN                                                                  10/05/2015 12:31:28 PAGE 3   
+C51 COMPILER V9.54   MAIN                                                                  10/08/2015 17:44:57 PAGE 3   
 
  114   1              {
  115   2              
@@ -172,7 +172,7 @@ line level    source
  155                  //---- Delay();, Delay_10us();,COM(); 
  156                  //-------------------------------- ↓
  157                  */
- 158          void RH(void)
+ 158          void R_HT(void)
  159          {
  160   1      
  161   1        //主机拉低18ms 
@@ -190,7 +190,7 @@ line level    source
  173   1         if(!P2_0)             //T !    
  174   1         {
  175   2                      TR0 = 0;        //停止定时器计时, 防止中断干扰温湿度数据采集
-C51 COMPILER V9.54   MAIN                                                                  10/05/2015 12:31:28 PAGE 4   
+C51 COMPILER V9.54   MAIN                                                                  10/08/2015 17:44:57 PAGE 4   
 
  176   2                      TR1 = 0;
  177   2              
@@ -254,7 +254,7 @@ line level    source
  235   1              U32 tmp;
  236   1              
  237   1              tmp = 11059200 / 12;
-C51 COMPILER V9.54   MAIN                                                                  10/05/2015 12:31:28 PAGE 5   
+C51 COMPILER V9.54   MAIN                                                                  10/08/2015 17:44:57 PAGE 5   
 
  238   1              tmp = (tmp * ms) / 1000;
  239   1              tmp = 65536 - tmp;
@@ -318,7 +318,7 @@ line level    source
  297   1                              {
  298   2                                      ShowStr(14,1,"  ");
  299   2                                      enbuzz3 = 0;
-C51 COMPILER V9.54   MAIN                                                                  10/05/2015 12:31:28 PAGE 6   
+C51 COMPILER V9.54   MAIN                                                                  10/08/2015 17:44:57 PAGE 6   
 
  300   2                              }
  301   1      }
@@ -357,7 +357,7 @@ line level    source
  334   1              {  
  335   2                      
  336   2      /*  调用温湿度读取子程序 读取温湿度！ */
- 337   2                      RH();
+ 337   2                      R_HT();
  338   2                              
  339   2                              
  340   2                      if(flag1s == 1)         
@@ -382,7 +382,7 @@ line level    source
  359   1              
  360   1              TH0 = T0RH;
  361   1              TL0 = T0RL;
-C51 COMPILER V9.54   MAIN                                                                  10/05/2015 12:31:28 PAGE 7   
+C51 COMPILER V9.54   MAIN                                                                  10/08/2015 17:44:57 PAGE 7   
 
  362   1              
  363   1              

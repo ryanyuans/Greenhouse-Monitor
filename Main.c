@@ -54,7 +54,7 @@ uchar str[10];
 U8 enbuzz1 = 0,enbuzz2 = 0,enbuzz3 = 0;
 U8 ENA_Temp1 = 0,ENA_Temp2 = 0;
 
-void TrasfToString(U8 *str,U8 dat)
+void TrasfToString(U8 *str,U8 dat)		// 把读取的数据转化成字符串
 {
 	signed char i = 0;
 	uchar len = 0;
@@ -155,7 +155,7 @@ void  COM(void)
 	//---- Delay();, Delay_10us();,COM(); 
 	//-------------------------------- ↓
 	*/
-void RH(void)
+void R_HT(void)
 {
 
   //主机拉低18ms 
@@ -334,7 +334,7 @@ void main()
 	{  
 		
 /*  调用温湿度读取子程序 读取温湿度！ */
-		RH();
+		R_HT();
 			
 			
 		if(flag1s == 1)		

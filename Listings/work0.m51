@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        10/05/2015  12:31:28  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        10/08/2015  17:44:57  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -41,7 +41,7 @@ LINK MAP OF MODULE:  .\Objects\work0 (MAIN)
             CODE    001BH     0003H     ABSOLUTE     
             CODE    001EH     015BH     UNIT         ?C?LIB_CODE
             CODE    0179H     008CH     UNIT         ?C_C51STARTUP
-            CODE    0205H     007BH     UNIT         ?PR?RH?MAIN
+            CODE    0205H     007BH     UNIT         ?PR?R_HT?MAIN
             CODE    0280H     007AH     UNIT         ?PR?_TRASFTOSTRING?MAIN
             CODE    02FAH     0079H     UNIT         ?PR?_CONFIGTIMER0?MAIN
             CODE    0373H     0079H     UNIT         ?PR?_CONFIGTIMER1?MAIN
@@ -59,7 +59,7 @@ LINK MAP OF MODULE:  .\Objects\work0 (MAIN)
             CODE    0603H     0012H     UNIT         ?CO?MAIN
             CODE    0615H     0012H     UNIT         ?PR?WAITREADY?LCD1602
             CODE    0627H     0011H     UNIT         ?PR?ALARM_ACTION?MAIN
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 2
 
 
             CODE    0638H     0011H     UNIT         ?PR?_WRITECMD?LCD1602
@@ -84,7 +84,7 @@ SEGMENT                           DATA_GROUP
   +--> ?CO?MAIN
   +--> ?PR?_SHOWSTR?LCD1602
   +--> ?PR?_DELAY?MAIN
-  +--> ?PR?RH?MAIN
+  +--> ?PR?R_HT?MAIN
   +--> ?PR?SHOWTEMPHUMI?MAIN
   +--> ?PR?ALARM_MONITOR?MAIN
   +--> ?PR?ALARM_ACTION?MAIN
@@ -109,7 +109,7 @@ SEGMENT                           DATA_GROUP
 ?PR?_WRITEDATA?LCD1602          -----    -----
   +--> ?PR?WAITREADY?LCD1602
 
-?PR?RH?MAIN                     -----    -----
+?PR?R_HT?MAIN                   -----    -----
   +--> ?PR?_DELAY?MAIN
   +--> ?PR?DELAY_10US?MAIN
   +--> ?PR?COM?MAIN
@@ -119,7 +119,7 @@ SEGMENT                           DATA_GROUP
 ?PR?COM?MAIN                    -----    -----
   +--> ?PR?DELAY_10US?MAIN
 
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 3
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 3
 
 
 ?PR?SHOWTEMPHUMI?MAIN           -----    -----
@@ -153,7 +153,6 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   C:02FAH         PUBLIC        _ConfigTimer0
   C:0373H         PUBLIC        _ConfigTimer1
   B:00A0H.0       PUBLIC        P2_0
-  C:0205H         PUBLIC        RH
   C:000EH         PUBLIC        Delay_10us
   D:000EH         PUBLIC        T0RH
   D:000FH         PUBLIC        T1RH
@@ -179,14 +178,15 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   D:001EH         PUBLIC        U8checkdata_temp
   D:001FH         PUBLIC        U8temp
   B:00A8H.1       PUBLIC        ET0
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 4
-
-
   B:00A8H.3       PUBLIC        ET1
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 4
+
+
   B:0090H.6       PUBLIC        BUZZ
   D:008CH         PUBLIC        TH0
   D:0020H         PUBLIC        U8RH_data_H
   D:008DH         PUBLIC        TH1
+  C:0205H         PUBLIC        R_HT
   D:008AH         PUBLIC        TL0
   D:0021H         PUBLIC        U8RH_data_L
   D:008BH         PUBLIC        TL1
@@ -239,7 +239,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   -------         PROC          _DELAY
   D:0006H         SYMBOL        j
   -------         DO            
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 5
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 5
 
 
   D:0005H         SYMBOL        i
@@ -291,7 +291,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   C:052EH         LINE#         140
   C:0532H         LINE#         142
   -------         ENDPROC       COM
-  -------         PROC          RH
+  -------         PROC          R_HT
   C:0205H         LINE#         158
   C:0205H         LINE#         159
   C:0205H         LINE#         162
@@ -299,7 +299,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   C:020EH         LINE#         164
   C:0210H         LINE#         166
   C:0213H         LINE#         167
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 6
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 6
 
 
   C:0216H         LINE#         168
@@ -337,7 +337,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   C:027BH         LINE#         211
   C:027DH         LINE#         212
   C:027FH         LINE#         213
-  -------         ENDPROC       RH
+  -------         ENDPROC       R_HT
   -------         PROC          _CONFIGTIMER0
   D:0002H         SYMBOL        ms
   -------         DO            
@@ -359,7 +359,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   C:0370H         LINE#         230
   C:0372H         LINE#         231
   -------         ENDPROC       _CONFIGTIMER0
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 7
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 7
 
 
   -------         PROC          _CONFIGTIMER1
@@ -419,7 +419,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   C:0430H         LINE#         288
   C:0432H         LINE#         289
   C:0432H         LINE#         291
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 8
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 8
 
 
   C:043BH         LINE#         292
@@ -479,7 +479,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   C:05AFH         LINE#         364
   C:05B1H         LINE#         366
   C:05B6H         LINE#         367
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 9
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 9
 
 
   C:05B6H         LINE#         368
@@ -539,7 +539,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   C:063FH         LINE#         35
   C:0641H         LINE#         36
   C:0644H         LINE#         37
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 10
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 10
 
 
   C:0646H         LINE#         38
@@ -599,7 +599,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\work0 (MAIN)
   C:064EH         LINE#         92
   C:0650H         LINE#         93
   C:0652H         LINE#         94
-BL51 BANKED LINKER/LOCATER V6.22                                                      10/05/2015  12:31:28  PAGE 11
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/08/2015  17:44:57  PAGE 11
 
 
   C:0654H         LINE#         95
