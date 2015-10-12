@@ -1,0 +1,174 @@
+C51 COMPILER V9.54   DHT11                                                                 10/12/2015 00:19:20 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE DHT11
+OBJECT MODULE PLACED IN .\Objects\DHT11.obj
+COMPILER INVOKED BY: D:\Keil_MDK\C51\BIN\C51.EXE DHT11.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\DH
+                    -T11.lst) OBJECT(.\Objects\DHT11.obj)
+
+line level    source
+
+   1           /* 
+   2           *****************************************
+   3                                  DHT11 温湿度传感器驱动模块
+   4           *****************************************
+   5           */
+   6          #define _DHT11_C
+   7          
+   8          #include "Config.h"
+   9          
+  10          U8  U8FLAG;
+  11          U8  U8count,U8temp;
+  12          U8  U8T_data_H = 0, U8T_data_L = 0, U8RH_data_H = 0, U8RH_data_L = 0, U8checkdata = 0;
+  13          U8  U8T_data_H_temp = 0, U8T_data_L_temp = 0, U8RH_data_H_temp = 0, U8RH_data_L_temp = 0, U8checkdata_temp
+             - = 0;
+  14          U8  U8comdata;
+  15          U8  count, count_r=0;
+  16          U16 U16temp1,U16temp2;
+  17          
+  18          void Delay(U16 j)
+  19          {      
+  20   1              U8 i;
+  21   1              for(;j>0;j--)
+  22   1              {       
+  23   2              for(i=0;i<27;i++);
+  24   2      
+  25   2              }
+  26   1      }
+  27          
+  28          void  Delay_10us(void)
+  29          {
+  30   1              U8 i;
+  31   1              i--;
+  32   1              i--;
+  33   1              i--;
+  34   1              i--;
+  35   1              i--;
+  36   1              i--;
+  37   1      }
+  38                  
+  39          void  COM(void)
+  40           {
+  41   1      
+  42   1              U8 i;
+  43   1                
+  44   1              for(i=0;i<8;i++)           
+  45   1              {
+  46   2              
+  47   2                      U8FLAG=2;       
+  48   2              while((!P2_0)&&U8FLAG++)
+  49   2                      ;
+  50   2              Delay_10us();
+  51   2              Delay_10us();
+  52   2              Delay_10us();
+  53   2              U8temp=0;
+C51 COMPILER V9.54   DHT11                                                                 10/12/2015 00:19:20 PAGE 2   
+
+  54   2                      
+  55   2               if(P2_0)
+  56   2                       U8temp=1;
+  57   2               
+  58   2               U8FLAG=2;
+  59   2               
+  60   2               while((P2_0)&&U8FLAG++)
+  61   2                       ;
+  62   2              //超时则跳出for循环               
+  63   2               if(U8FLAG==1)
+  64   2                       break;
+  65   2              //判断数据位是0还是1     
+  66   2                 
+  67   2              // 如果高电平高过预定0高电平值则数据位为 1 
+  68   2               
+  69   2                 U8comdata <<= 1;
+  70   2                 U8comdata |= U8temp;        // 0 or 1
+  71   2               }//rof
+  72   1         
+  73   1      }
+  74          
+  75                  /*
+  76                  //--------------------------------
+  77                  //-----湿度读取子程序 ------------
+  78                  //--------------------------------
+  79                  //----以下变量均为全局变量--------
+  80                  //----温度高8位== U8T_data_H------
+  81                  //----温度低8位== U8T_data_L------
+  82                  //----湿度高8位== U8RH_data_H-----
+  83                  //----湿度低8位== U8RH_data_L-----
+  84                  //----校验 8位 == U8checkdata-----
+  85                  //----调用相关子程序如下----------
+  86                  //---- Delay();, Delay_10us();,COM(); 
+  87                  //-------------------------------- ↓
+  88                  */
+  89          void R_HT(void)
+  90          {
+  91   1      
+  92   1        //主机拉低18ms 
+  93   1         P2_0=0;
+  94   1         Delay(180);
+  95   1         P2_0=1;
+  96   1       //总线由上拉电阻拉高 主机延时20us
+  97   1         Delay_10us();
+  98   1         Delay_10us();
+  99   1         Delay_10us();
+ 100   1         Delay_10us();
+ 101   1       //主机设为输入 判断从机响应信号 
+ 102   1         P2_0=1;
+ 103   1       //判断从机是否有低电平响应信号 如不响应则跳出，响应则向下运行    
+ 104   1         if(!P2_0)             //T !    
+ 105   1         {
+ 106   2                      TR0 = 0;        //停止定时器计时, 防止中断干扰温湿度数据采集
+ 107   2                      TR1 = 0;
+ 108   2              
+ 109   2                 U8FLAG=2;
+ 110   2               //判断从机是否发出 80us 的低电平响应信号是否结束        
+ 111   2                 while((!P2_0)&&U8FLAG++);
+ 112   2                 U8FLAG=2;
+ 113   2               //判断从机是否发出 80us 的高电平，如发出则进入数据接收状态
+ 114   2                 while((P2_0)&&U8FLAG++);
+ 115   2               //数据接收状态          
+C51 COMPILER V9.54   DHT11                                                                 10/12/2015 00:19:20 PAGE 3   
+
+ 116   2                 COM();
+ 117   2                 U8RH_data_H_temp=U8comdata;
+ 118   2                 COM();
+ 119   2                 U8RH_data_L_temp=U8comdata;
+ 120   2                 COM();
+ 121   2                 U8T_data_H_temp=U8comdata;
+ 122   2                 COM();
+ 123   2                 U8T_data_L_temp=U8comdata;
+ 124   2                 COM();
+ 125   2                 U8checkdata_temp=U8comdata;
+ 126   2                 P2_0=1;
+ 127   2                         
+ 128   2               //数据校验 ↓
+ 129   2                              
+ 130   2                 U8temp = (U8T_data_H_temp + U8T_data_L_temp + U8RH_data_H_temp + U8RH_data_L_temp);
+ 131   2                 if(U8temp == U8checkdata_temp)
+ 132   2                 {
+ 133   3                        U8RH_data_H = U8RH_data_H_temp;
+ 134   3                        U8RH_data_L = U8RH_data_L_temp;
+ 135   3                        U8T_data_H = U8T_data_H_temp;
+ 136   3                        U8T_data_L = U8T_data_L_temp;
+ 137   3                        U8checkdata = U8checkdata_temp;
+ 138   3      
+ 139   3                 }//fi
+ 140   2         }//fi
+ 141   1         
+ 142   1              TR0 = 1;        // 重新打开定时器计时
+ 143   1              TR1 = 1;
+ 144   1      }
+ 145                  
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    226    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     20       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

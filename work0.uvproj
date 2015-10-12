@@ -359,7 +359,7 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Source Group 1</GroupName>
+          <GroupName>Source Group</GroupName>
           <Files>
             <File>
               <FileName>Main.c</FileName>
@@ -370,6 +370,41 @@
               <FileName>LCD1602.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\LCD1602.c</FilePath>
+            </File>
+            <File>
+              <FileName>GSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\GSM.c</FilePath>
+            </File>
+            <File>
+              <FileName>DHT11.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\DHT11.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Include Group</GroupName>
+          <Files>
+            <File>
+              <FileName>Config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Config.h</FilePath>
+            </File>
+            <File>
+              <FileName>LCD1602.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\LCD1602.h</FilePath>
+            </File>
+            <File>
+              <FileName>DHT11.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\DHT11.h</FilePath>
+            </File>
+            <File>
+              <FileName>GSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\GSM.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,4 +1,6 @@
 ".\Objects\Main.obj",
-".\Objects\LCD1602.obj" 
+".\Objects\LCD1602.obj",
+".\Objects\GSM.obj",
+".\Objects\DHT11.obj" 
 TO ".\Objects\work0" 
 PRINT(".\Listings\work0.m51") RAMSIZE(256) 

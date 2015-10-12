@@ -3,20 +3,12 @@
 			1602 液晶驱动模块
  *****************************************
  */
+#define _LCD1602_C
 
-#include<reg52.h>
+#include "Config.h"
+#include "LCD1602.h"
 
-#define LCD_DB P0
-
-#define uchar unsigned char
-#define uint unsigned int
-#define ulong unsigned long
-	
-sbit LCD_RS = P1^0;
-sbit LCD_RW = P1^1;
-sbit LCD_E = P1^5;
-
-void Reset1602()		// 重新配置LCD1602 向LCD1602写入命令
+void Init1602()		// 重新配置LCD1602 向LCD1602写入命令
 {
 	void WriteCmd(uchar cmd);
 	
@@ -26,7 +18,7 @@ void Reset1602()		// 重新配置LCD1602 向LCD1602写入命令
 	WriteCmd(0X01);
 }
 
-void WriteCmd(uchar cmd)	 	// 写入命令 配置 ———— 底层
+void WriteCmd(U8 cmd)	 	// 写入命令 配置 ———— 底层
 {
 	void WaitReady();
 	

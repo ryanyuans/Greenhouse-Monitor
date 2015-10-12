@@ -1,0 +1,117 @@
+C51 COMPILER V9.54   GSM                                                                   10/12/2015 00:19:20 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE GSM
+OBJECT MODULE PLACED IN .\Objects\GSM.obj
+COMPILER INVOKED BY: D:\Keil_MDK\C51\BIN\C51.EXE GSM.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\GSM.
+                    -lst) OBJECT(.\Objects\GSM.obj)
+
+line level    source
+
+   1          /************************************************************
+   2          程序说明：
+   3          本程序运行后如果gprs模块找到服务商信号，就拨打指定电话。
+   4          1.将自己的51单片机的串口1连接到GSM 232上
+   5          2.找到程序中前面的#define处，根据说明修改好自己的单片机配置，编译程序
+   6          2.下载程序
+   7          3.等待发送成功
+   8          
+   9          
+  10          *************************************************************/
+  11          #define _GSM_C
+  12          
+  13          #include "Config.h"
+  14          
+  15          //以下是开机后发送到手机的内容，发送的号码在程序中修改。
+  16          U8 sms_text[] = "abc123";
+  17          
+  18             
+  19          //注意，无论接收到信号还是发送完信号，都会进中断服务程序的
+  20          /*初始化程序（必须使用，否则无法收发），次程序将会使用定时器1*/
+  21          void SerialInti()//初始化程序（必须使用，否则无法收发）
+  22          {
+  23   1              TMOD=0x20;                      //定时器1操作模式2:8位自动重载定时器
+  24   1              TH1=0xfd;                       //装入初值，波特率9600
+  25   1              TL1=0xfd;
+  26   1              ET1 = 0;        // 禁止T1中断
+  27   1              TR1=1;//打开定时器
+  28   1              SM0=0;//设置串行通讯工作模式，（10位异步发送，波特率可变，由定时器1的溢出率控制）
+  29   1              SM1=1;//(同上)在此模式下，定时器溢出一次就发送一个位的数据
+  30   1              REN=1;//串行接收允许位（要先设置sm0sm1再开串行允许）
+  31   1              ES=1;//开串行口中断     
+  32   1      }
+  33          
+  34          /*串行通讯中断，收发完成将进入该中断*/
+  35          void Serial_interrupt() interrupt 4 
+  36          {
+  37   1      //      a=SBUF;
+  38   1              P2 = SBUF;
+  39   1              RI = 0;         //接收中断信号清零，表示将继续接收
+  40   1      //      flag=1;         //进入中断的标志符号
+  41   1      }
+  42          
+  43          
+  44          void Uart1Send(U8 c)
+  45          {
+  46   1              SBUF = c;
+  47   1              while(!TI) ;//等待发送完成信号（TI=1）出现
+  48   1              TI = 0; 
+  49   1      }
+  50          
+  51          //串行口连续发送char型数组，遇到终止号/0将停止
+  52          void Uart1Sends(U8 *str)
+  53          {
+  54   1              while(*str!='\0')
+C51 COMPILER V9.54   GSM                                                                   10/12/2015 00:19:20 PAGE 2   
+
+  55   1              {
+  56   2                      SBUF=*str;
+  57   2                      while(!TI);//等待发送完成信号（TI=1）出现
+  58   2                      TI=0;
+  59   2                      str++;
+  60   2              }
+  61   1      }
+  62          
+  63          //延时函数大概是1s钟，不过延时大的话不准...
+  64          void DelaySec(U16 sec)
+  65          {
+  66   1              U16 i , j= 0;
+  67   1      
+  68   1              for(i=0; i<sec; i++)
+  69   1              {
+  70   2                      for(j=0; j<65535; j++)
+  71   2                      {       
+  72   3                      }
+  73   2              }
+  74   1      }
+  75          
+  76          
+  77          
+  78          void Sendit()
+  79          {
+  80   1              
+  81   1              Uart1Sends("AT+CSCS=\"GSM\"\r\n");
+  82   1              DelaySec(3);//延时3秒
+  83   1              Uart1Sends("AT+CMGF=1\r\n");
+  84   1              DelaySec(3);//延时3秒
+  85   1              Uart1Sends("AT+CMGS=\"10086\"\r\n");//此处修改为对方的电话号
+  86   1              DelaySec(3);//延时3秒
+  87   1              Uart1Sends(sms_text);//修改短信内容
+  88   1              Uart1Send(0x1a);
+  89   1              DelaySec(20);//延时20秒
+  90   1              
+  91   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    169    ----
+   CONSTANT SIZE    =     46    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
