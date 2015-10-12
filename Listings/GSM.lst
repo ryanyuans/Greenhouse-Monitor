@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   GSM                                                                   10/12/2015 00:19:20 PAGE 1   
+C51 COMPILER V9.54   GSM                                                                   10/12/2015 11:58:02 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE GSM
@@ -23,7 +23,7 @@ line level    source
   13          #include "Config.h"
   14          
   15          //以下是开机后发送到手机的内容，发送的号码在程序中修改。
-  16          U8 sms_text[] = "abc123";
+  16          U8 sms_text[] = "Warning!~";
   17          
   18             
   19          //注意，无论接收到信号还是发送完信号，都会进中断服务程序的
@@ -44,71 +44,78 @@ line level    source
   34          /*串行通讯中断，收发完成将进入该中断*/
   35          void Serial_interrupt() interrupt 4 
   36          {
-  37   1      //      a=SBUF;
-  38   1              P2 = SBUF;
-  39   1              RI = 0;         //接收中断信号清零，表示将继续接收
-  40   1      //      flag=1;         //进入中断的标志符号
-  41   1      }
-  42          
+  37   1              U8 temps;
+  38   1      //      a=SBUF;
+  39   1              temps = SBUF;
+  40   1              RI = 0;         //接收中断信号清零，表示将继续接收
+  41   1      //      flag=1;         //进入中断的标志符号
+  42   1      }
   43          
-  44          void Uart1Send(U8 c)
-  45          {
-  46   1              SBUF = c;
-  47   1              while(!TI) ;//等待发送完成信号（TI=1）出现
-  48   1              TI = 0; 
-  49   1      }
-  50          
-  51          //串行口连续发送char型数组，遇到终止号/0将停止
-  52          void Uart1Sends(U8 *str)
-  53          {
-  54   1              while(*str!='\0')
-C51 COMPILER V9.54   GSM                                                                   10/12/2015 00:19:20 PAGE 2   
+  44          
+  45          void Uart1Send(U8 c)
+  46          {
+  47   1              SBUF = c;
+  48   1              while(!TI) ;//等待发送完成信号（TI=1）出现
+  49   1              TI = 0; 
+  50   1      }
+  51          
+  52          //串行口连续发送char型数组，遇到终止号/0将停止
+  53          void Uart1Sends(U8 *str)
+  54          {
+C51 COMPILER V9.54   GSM                                                                   10/12/2015 11:58:02 PAGE 2   
 
-  55   1              {
-  56   2                      SBUF=*str;
-  57   2                      while(!TI);//等待发送完成信号（TI=1）出现
-  58   2                      TI=0;
-  59   2                      str++;
-  60   2              }
-  61   1      }
-  62          
-  63          //延时函数大概是1s钟，不过延时大的话不准...
-  64          void DelaySec(U16 sec)
-  65          {
-  66   1              U16 i , j= 0;
-  67   1      
-  68   1              for(i=0; i<sec; i++)
-  69   1              {
-  70   2                      for(j=0; j<65535; j++)
-  71   2                      {       
-  72   3                      }
-  73   2              }
-  74   1      }
-  75          
+  55   1              while(*str!='\0')
+  56   1              {
+  57   2                      SBUF=*str;
+  58   2                      while(!TI);//等待发送完成信号（TI=1）出现
+  59   2                      TI=0;
+  60   2                      str++;
+  61   2              }
+  62   1      }
+  63          
+  64          //延时函数大概是1s钟，不过延时大的话不准...
+  65          void DelaySec(U16 sec)
+  66          {
+  67   1              U16 i , j= 0;
+  68   1      
+  69   1              for(i=0; i<sec; i++)
+  70   1              {
+  71   2                      for(j=0; j<65535; j++)
+  72   2                      {       
+  73   3                      }
+  74   2              }
+  75   1      }
   76          
   77          
-  78          void Sendit()
-  79          {
-  80   1              
-  81   1              Uart1Sends("AT+CSCS=\"GSM\"\r\n");
-  82   1              DelaySec(3);//延时3秒
-  83   1              Uart1Sends("AT+CMGF=1\r\n");
-  84   1              DelaySec(3);//延时3秒
-  85   1              Uart1Sends("AT+CMGS=\"10086\"\r\n");//此处修改为对方的电话号
-  86   1              DelaySec(3);//延时3秒
-  87   1              Uart1Sends(sms_text);//修改短信内容
-  88   1              Uart1Send(0x1a);
-  89   1              DelaySec(20);//延时20秒
-  90   1              
-  91   1      }
+  78          
+  79          void Sendit()
+  80          {
+  81   1              
+  82   1              Uart1Sends("AT+CSCS=\"GSM\"\r\n");
+  83   1              DelaySec(3);//延时3秒
+  84   1              Uart1Sends("AT+CMGF=1\r\n");
+  85   1              DelaySec(3);//延时3秒
+  86   1              Uart1Sends("AT+CMGS=\"13902540358\"\r\n");//此处修改为对方的电话号
+  87   1              DelaySec(5);//延时3秒
+  88   1              Uart1Sends(sms_text);//修改短信内容
+  89   1              Uart1Send(0x1a);
+  90   1              DelaySec(10);//延时20秒
+  91   1              
+  92   1      /*
+  93   1              Uart1Sends("ATD13902540358;\r\n");                      // 拨打指定电话~
+  94   1              DelaySec(15);//延时15秒
+  95   1              Uart1Sends("ATH\r\n");
+  96   1              DelaySec(3);//延时10秒
+  97   1      */
+  98   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    169    ----
-   CONSTANT SIZE    =     46    ----
+   CODE SIZE        =    176    ----
+   CONSTANT SIZE    =     52    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      7       4
+   DATA SIZE        =     10       5
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

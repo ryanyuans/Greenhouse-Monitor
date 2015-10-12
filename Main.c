@@ -192,7 +192,7 @@ void main()
 	
 	EA = 1;
 	ConfigTimer0(20);		// 20 X 50 = 1 S
-	ConfigTimer2(120);		// 每秒 1000次
+	ConfigTimer2(1000);		// 每秒 1000次
 	Init1602();
 	SerialInti();
 	

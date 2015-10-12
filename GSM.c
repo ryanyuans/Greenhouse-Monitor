@@ -13,7 +13,7 @@
 #include "Config.h"
 
 //以下是开机后发送到手机的内容，发送的号码在程序中修改。
-U8 sms_text[] = "abc123";
+U8 sms_text[] = "Warning!";
 
    
 //注意，无论接收到信号还是发送完信号，都会进中断服务程序的
@@ -34,8 +34,9 @@ void SerialInti()//初始化程序（必须使用，否则无法收发）
 /*串行通讯中断，收发完成将进入该中断*/
 void Serial_interrupt() interrupt 4 
 {
+	U8 temps;
 //	a=SBUF;
-	P2 = SBUF;
+	temps = SBUF;
 	RI = 0;		//接收中断信号清零，表示将继续接收
 //	flag=1;		//进入中断的标志符号
 }
@@ -82,10 +83,16 @@ void Sendit()
 	DelaySec(3);//延时3秒
 	Uart1Sends("AT+CMGF=1\r\n");
 	DelaySec(3);//延时3秒
-	Uart1Sends("AT+CMGS=\"10086\"\r\n");//此处修改为对方的电话号
-	DelaySec(3);//延时3秒
+	Uart1Sends("AT+CMGS=\"13902540358\"\r\n");//此处修改为对方的电话号
+	DelaySec(5);//延时3秒
 	Uart1Sends(sms_text);//修改短信内容
 	Uart1Send(0x1a);
-	DelaySec(20);//延时20秒
+	DelaySec(10);//延时10秒
 	
+/*
+	Uart1Sends("ATD13902540358;\r\n");			// 拨打指定电话~
+	DelaySec(15);//延时15秒
+	Uart1Sends("ATH\r\n");
+	DelaySec(3);//延时10秒
+*/
 }
