@@ -61,7 +61,7 @@ void Uart1Sends(U8 *str)
 	}
 }
 
-//延时函数大概是1s钟，不过延时大的话不准...
+/* 延时函数大概是1s钟，不过延时大的话不准... */
 void DelaySec(U16 sec)
 {
 	U16 i , j= 0;
@@ -74,8 +74,6 @@ void DelaySec(U16 sec)
 	}
 }
 
-
-
 void Sendit()
 {
 	
@@ -83,9 +81,9 @@ void Sendit()
 	DelaySec(3);//延时3秒
 	Uart1Sends("AT+CMGF=1\r\n");
 	DelaySec(3);//延时3秒
-	Uart1Sends("AT+CMGS=\"13902540358\"\r\n");//此处修改为对方的电话号
+	Uart1Sends("AT+CMGS=\"13902540358\"\r\n");	// 接收方的电话号码
 	DelaySec(5);//延时3秒
-	Uart1Sends(sms_text);//修改短信内容
+	Uart1Sends(sms_text);	// 短信内容
 	Uart1Send(0x1a);
 	DelaySec(10);//延时10秒
 	
