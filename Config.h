@@ -43,10 +43,13 @@
 
 	sbit BUZZ = P1^6;
 
-	sbit INA = P2^7;
+	/*
+	sbit INA = P2^7;		// µç»úÇý¶¯
 	sbit INB = P2^6;
 	sbit ENA = P2^5;
-
+	*/
+	sbit SOIL = P2^7;
+	
 	sbit LCD_RS = P1^0;
 	sbit LCD_RW = P1^1;
 	sbit LCD_E = P1^5;

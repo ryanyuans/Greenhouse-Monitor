@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   GSM                                                                   10/12/2015 13:54:33 PAGE 1   
+C51 COMPILER V9.54   GSM                                                                   10/17/2015 13:52:11 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE GSM
@@ -62,7 +62,7 @@ line level    source
   52          //串行口连续发送char型数组，遇到终止号/0将停止
   53          void Uart1Sends(U8 *str)
   54          {
-C51 COMPILER V9.54   GSM                                                                   10/12/2015 13:54:33 PAGE 2   
+C51 COMPILER V9.54   GSM                                                                   10/17/2015 13:52:11 PAGE 2   
 
   55   1              while(*str!='\0')
   56   1              {

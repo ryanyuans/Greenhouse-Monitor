@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   DHT11                                                                 10/12/2015 09:06:23 PAGE 1   
+C51 COMPILER V9.54   DHT11                                                                 10/17/2015 13:52:11 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE DHT11
@@ -62,7 +62,7 @@ line level    source
   51   2              Delay_10us();
   52   2              Delay_10us();
   53   2              U8temp=0;
-C51 COMPILER V9.54   DHT11                                                                 10/12/2015 09:06:23 PAGE 2   
+C51 COMPILER V9.54   DHT11                                                                 10/17/2015 13:52:11 PAGE 2   
 
   54   2                      
   55   2               if(P2_0)
@@ -126,7 +126,7 @@ line level    source
  113   2               //判断从机是否发出 80us 的高电平，如发出则进入数据接收状态
  114   2                 while((P2_0)&&U8FLAG++);
  115   2               //数据接收状态          
-C51 COMPILER V9.54   DHT11                                                                 10/12/2015 09:06:23 PAGE 3   
+C51 COMPILER V9.54   DHT11                                                                 10/17/2015 13:52:11 PAGE 3   
 
  116   2                 COM();
  117   2                 U8RH_data_H_temp=U8comdata;
