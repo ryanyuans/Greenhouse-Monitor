@@ -42,6 +42,8 @@
 	sbit DOUT = P2^1;			// 有害气体浓度数据
 
 	sbit BUZZ = P1^6;
+	
+	sbit ENA = P3^7;
 
 	/*
 	sbit INA = P2^7;		// 电机驱动

@@ -147,13 +147,15 @@ void Alarm_Monitor()		// 监控各指标_ 温度、湿度、有害气体浓度
 			enbuzz3 = 0;
 		}
 		
-		if(SOIL == 1)
+		if(SOIL == 1)		// 土壤湿度超标
 		{
 			ShowStr(14,0,"!~");
+			
 		}
 		else
 		{
 			ShowStr(14,1,"!~");
+			
 		}
 		
 		if(DOUT==0)		// 检测有害气体浓度是否超标
@@ -237,7 +239,6 @@ void Timer0() interrupt 1
 	TH0 = T0RH;
 	TL0 = T0RL;
 	
-	
 	timer1++;
 	
 	if(timer1 == 50)		// 计时 20 X 50 ==> 1 S
@@ -248,17 +249,17 @@ void Timer0() interrupt 1
 	
 	if((ENA_Temp1 == 1) || (ENA_Temp2 == 1))	// 启动风扇 抽风 降温***************************
 	{
-		// ENA = 1;
+		 ENA = 1;
 	}
 	else
 	{
-		// ENA = 0;
+		 ENA = 0;
 	}
 	
 	if(SendOn == 1)
 	{
 		SendOn = 0;
-		Sendit();
+		//Sendit();
 	}
 }
 
